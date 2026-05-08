@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Мій профіль — Transpika</title>
+  <meta name="description" content="Особистий кабінет Transpika. Керуйте поїздками, посилками та особистими даними.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .profile-tab-content { display: none; }
+    .profile-tab-content.active { display: block; }
+    .profile-nav a.active { background: var(--blue-light); color: var(--blue); font-weight: 600; }
+    @media (max-width: 768px) {
+      .profile-grid { grid-template-columns: 1fr; margin-top: 0; padding-top: 20px; }
+    }
+  </style>
+</head>
+<body><script>var t=localStorage.getItem("et_theme")||"light";document.documentElement.setAttribute("data-theme",t);</script>
+
+  <nav id="navbar"></nav>
+
+  <div class="profile-grid">
+    <!-- SIDEBAR -->
+    <aside class="profile-sidebar" id="profileSidebar">
+      <div class="sidebar-avatar" id="sidebarAvatar">?</div>
+      <div class="sidebar-name" id="sidebarName">Завантаження...</div>
+      <div class="sidebar-email" id="sidebarEmail"></div>
+      <nav class="profile-nav">
+        <a href="javascript:void(0)" class="active" data-tab="dashboard" onclick="return switchTab('dashboard', this)">
+          <span class="nav-icon">🏠</span> Огляд
+        </a>
+        <a href="javascript:void(0)" data-tab="trips" onclick="return switchTab('trips', this)">
+          <span class="nav-icon">🚌</span> Мої поїздки
+        </a>
+        <a href="javascript:void(0)" data-tab="parcels" onclick="return switchTab('parcels', this)">
+          <span class="nav-icon">📦</span> Мої посилки
+        </a>
+        <a href="javascript:void(0)" data-tab="settings" onclick="return switchTab('settings', this)">
+          <span class="nav-icon">⚙️</span> Налаштування
+        </a>
+        <div class="profile-divider"></div>
+        <button onclick="logout()">
+          <span class="nav-icon">↩</span> Вийти
+        </button>
+      </nav>
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <main class="profile-content">
+
+      <!-- DASHBOARD TAB -->
+      <div id="tab-dashboard" class="profile-tab-content active">
+        <div class="profile-section">
+          <h2 id="welcomeMsg" style="font-size:1.3rem; font-weight:800; margin-bottom:6px;">Вітаємо!</h2>
+          <p style="font-size:0.875rem; color:var(--gray);">Це ваш особистий кабінет. Тут ви можете керувати поїздками, посилками та профілем.</p>
+        </div>
+
+        <div class="profile-section">
+          <h3 class="profile-section-title">📊 Статистика</h3>
+          <div class="stat-boxes">
+            <div class="stat-box">
+              <span class="stat-num">0</span>
+              <span class="stat-label">Поїздок</span>
+            </div>
+            <div class="stat-box">
+              <span class="stat-num">0</span>
+              <span class="stat-label">Посилок</span>
+            </div>
+            <div class="stat-box">
+              <span class="stat-num" style="font-size:1.4rem;">15%</span>
+              <span class="stat-label">Знижка</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="profile-section">
+          <h3 class="profile-section-title">🎁 Ваша знижка</h3>
+          <div style="background:linear-gradient(135deg, #fef3c7 0%, #fde68a 100%); border:2px solid var(--yellow); border-radius:12px; padding:20px 24px; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:12px;">
+            <div>
+              <div style="font-weight:700; font-size:1rem; color:var(--dark);">Знижка нового клієнта</div>
+              <div style="font-size:0.8rem; color:#92400e; margin-top:4px;">Діє на наступне замовлення. Накопичуйте поїздки для більшої знижки!</div>
+            </div>
+            <div style="background:var(--yellow); color:var(--dark); font-weight:800; font-size:1.6rem; padding:10px 20px; border-radius:10px;">-15%</div>
+          </div>
+        </div>
+
+        <div class="profile-section">
+          <h3 class="profile-section-title">⚡ Швидкі дії</h3>
+          <div style="display:flex; gap:12px; flex-wrap:wrap;">
+            <a href="contact.html" class="btn-blue">🚌 Замовити поїздку</a>
+            <a href="contact.html" class="btn-outline">📦 Відправити посилку</a>
+            <a href="routes.html" class="btn-outline">🗺️ Переглянути маршрути</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- TRIPS TAB -->
+      <div id="tab-trips" class="profile-tab-content">
+        <div class="profile-section">
+          <h3 class="profile-section-title">🚌 Мої поїздки</h3>
+          <div class="empty-state">
+            <span class="empty-icon">🚌</span>
+            <p>У вас ще немає замовлених поїздок.<br>Забронюйте свій перший рейс!</p>
+            <a href="contact.html" class="btn-blue">Замовити поїздку</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- PARCELS TAB -->
+      <div id="tab-parcels" class="profile-tab-content">
+        <div class="profile-section">
+          <h3 class="profile-section-title">📦 Мої посилки</h3>
+          <div class="empty-state">
+            <span class="empty-icon">📦</span>
+            <p>У вас ще немає відправлених посилок.<br>Відправте першу посилку вже сьогодні!</p>
+            <a href="contact.html" class="btn-blue">Відправити посилку</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- SETTINGS TAB -->
+      <div id="tab-settings" class="profile-tab-content">
+        <div class="profile-section">
+          <h3 class="profile-section-title">👤 Особисті дані</h3>
+          <div id="settingsSaveMsg" style="display:none; background:#dcfce7; border:1px solid #86efac; color:#166534; border-radius:8px; padding:10px 16px; margin-bottom:16px; font-size:0.875rem; font-weight:600;">
+            ✅ Дані збережено успішно!
+          </div>
+          <form id="profileForm" onsubmit="handleSaveProfile(event)">
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px;">
+              <div class="form-group">
+                <label for="pName">Ім'я та прізвище</label>
+                <input type="text" id="pName" placeholder="Іван Петренко">
+              </div>
+              <div class="form-group">
+                <label for="pEmail">Email</label>
+                <input type="email" id="pEmail" placeholder="your@email.com">
+              </div>
+              <div class="form-group">
+                <label for="pPhone">Телефон</label>
+                <input type="tel" id="pPhone" placeholder="+380 або +420...">
+              </div>
+              <div class="form-group">
+                <label for="pLang">Мова інтерфейсу</label>
+                <select id="pLang">
+                  <option value="uk">Українська</option>
+                  <option value="cz">Čeština</option>
+                  <option value="en">English</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-group" style="margin-top:8px;">
+              <label for="pCity">Місто</label>
+              <input type="text" id="pCity" placeholder="Прага / Київ / Брно...">
+            </div>
+            <div style="display:flex; gap:12px; flex-wrap:wrap; margin-top:8px;">
+              <button type="submit" class="btn-blue">💾 Зберегти зміни</button>
+              <button type="button" class="btn-outline" onclick="loadProfileData()">↩ Скасувати</button>
+            </div>
+          </form>
+        </div>
+
+        <div class="profile-section" style="margin-top:0;">
+          <h3 class="profile-section-title">🔐 Безпека</h3>
+          <p style="font-size:0.875rem; color:var(--gray); margin-bottom:16px;">Зміна пароля для вашого акаунту</p>
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px;">
+            <div class="form-group">
+              <label>Новий пароль</label>
+              <input type="password" placeholder="Мінімум 6 символів">
+            </div>
+            <div class="form-group">
+              <label>Підтвердіть пароль</label>
+              <input type="password" placeholder="Повторіть пароль">
+            </div>
+          </div>
+          <button class="btn-outline" onclick="showToast('Пароль оновлено!', '#2e7d32')">Змінити пароль</button>
+        </div>
+
+        <div class="profile-section" style="margin-top:0;">
+          <h3 class="profile-section-title" style="color:#b91c1c;">⚠️ Небезпечна зона</h3>
+          <p style="font-size:0.875rem; color:var(--gray); margin-bottom:16px;">Ці дії незворотні. Будьте обережні.</p>
+          <button class="btn-outline" style="border-color:#fca5a5; color:#b91c1c;" onclick="if(confirm('Ви впевнені? Всі ваші дані будуть видалені.')) { localStorage.removeItem(\'et_user\'); localStorage.removeItem(\'et_users\'); window.location.href=\'index.html\'; }">
+            🗑️ Видалити акаунт
+          </button>
+        </div>
+      </div>
+
+    </main>
+  </div>
+
+  <footer id="site-footer"></footer>
+
+  <script src="auth.js"></script>
+  <script>
+    // Guard: redirect if not logged in
+    const currentUser = getUser();
+    if (!currentUser) {
+      window.location.href = 'login.html';
+    }
+
+    // Welcome toast for new registration
+    const params = new URLSearchParams(window.location.search);
+    if (params.get('welcome') === '1') {
+      window.addEventListener('load', () => {
+        setTimeout(() => showToast('Ласкаво просимо! Реєстрацію завершено ✅', '#2e7d32'), 500);
+      });
+    }
+
+    function loadProfileData() {
+      const u = getUser();
+      if (!u) return;
+      document.getElementById('sidebarAvatar').textContent = u.name.charAt(0).toUpperCase();
+      document.getElementById('sidebarName').textContent = u.name;
+      document.getElementById('sidebarEmail').textContent = u.email;
+      document.getElementById('welcomeMsg').textContent = 'Вітаємо, ' + u.name.split(' ')[0] + '!';
+      document.getElementById('pName').value = u.name || '';
+      document.getElementById('pEmail').value = u.email || '';
+      document.getElementById('pPhone').value = u.phone || '';
+      const langSelect = document.getElementById('pLang');
+      if (langSelect) langSelect.value = getLang();
+    }
+
+    function switchTab(tabName, linkEl) {
+      // Hide all tabs
+      document.querySelectorAll('.profile-tab-content').forEach(t => t.classList.remove('active'));
+      // Remove active from all nav links
+      document.querySelectorAll('.profile-nav a').forEach(a => a.classList.remove('active'));
+      // Show selected
+      document.getElementById('tab-' + tabName).classList.add('active');
+      if (linkEl) linkEl.classList.add('active');
+      return false;
+    }
+
+    function handleSaveProfile(e) {
+      e.preventDefault();
+      const u = getUser();
+      if (!u) return;
+      const name = document.getElementById('pName').value.trim();
+      const email = document.getElementById('pEmail').value.trim();
+      const phone = document.getElementById('pPhone').value.trim();
+      const lang = document.getElementById('pLang').value;
+
+      const updated = { ...u, name: name || u.name, email: email || u.email, phone };
+      setUser(updated);
+      localStorage.setItem('et_lang', lang);
+
+      document.getElementById('settingsSaveMsg').style.display = 'block';
+      setTimeout(() => {
+        document.getElementById('settingsSaveMsg').style.display = 'none';
+        if (lang !== getLang()) location.reload();
+      }, 1500);
+      loadProfileData();
+    }
+
+    // Initialize
+    renderNav(''); initTheme();
+    renderFooter();
+    initReveal();
+    renderFloat();
+    loadProfileData();
+  </script>
+</body>
+</html>
+

@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Реєстрація — Transpika</title>
+  <meta name="description" content="Зареєструйтесь в Transpika. Відстежуйте замовлення, отримуйте знижки та керуйте поїздками в особистому кабінеті.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body><script>var t=localStorage.getItem("et_theme")||"light";document.documentElement.setAttribute("data-theme",t);</script>
+
+  <div class="auth-page" style="background-image: url('https://images.unsplash.com/reserve/oGLumRxPRmemKujIVuEG_LongExposure_i84.jpeg?fm=jpg&q=80&w=1920&fit=crop');">
+    <div class="auth-overlay"></div>
+
+    <div class="auth-card">
+      <a href="index.html" class="auth-logo">🇨🇿🇺🇦 Transpika</a>
+      <h1 class="auth-title">Реєстрація</h1>
+
+      <div class="auth-error" id="regError"></div>
+
+      <form id="registerForm" onsubmit="handleRegister(event)">
+        <div class="form-group">
+          <label for="regName">Ваше ім'я та прізвище *</label>
+          <input type="text" id="regName" name="name" placeholder="Іван Петренко" required autocomplete="name">
+        </div>
+        <div class="form-group">
+          <label for="regEmail">Email *</label>
+          <input type="email" id="regEmail" name="email" placeholder="your@email.com" required autocomplete="email">
+        </div>
+        <div class="form-group">
+          <label for="regPhone">Телефон</label>
+          <input type="tel" id="regPhone" name="phone" placeholder="+380 або +420..." autocomplete="tel">
+        </div>
+        <div class="form-group">
+          <label for="regPassword">Пароль *</label>
+          <input type="password" id="regPassword" name="password" placeholder="Мінімум 6 символів" required autocomplete="new-password">
+        </div>
+        <div class="form-group">
+          <label for="regPassword2">Підтвердіть пароль *</label>
+          <input type="password" id="regPassword2" name="password2" placeholder="Повторіть пароль" required autocomplete="new-password">
+        </div>
+        <div class="auth-checkbox">
+          <input type="checkbox" id="regTerms" required>
+          <label for="regTerms">Погоджуюсь з <a href="#" style="color:var(--blue);">умовами використання</a> та <a href="#" style="color:var(--blue);">політикою конфіденційності</a></label>
+        </div>
+        <button type="submit" class="btn-blue" style="width:100%; justify-content:center; font-size:1rem; padding:14px; margin-bottom:8px;">Зареєструватися</button>
+      </form>
+
+      <p class="auth-sub-link">
+        Вже маєте акаунт? <a href="login.html">Увійти</a>
+      </p>
+    </div>
+  </div>
+
+  <script src="auth.js"></script>
+  <script>
+    // Redirect if already logged in
+    if (getUser()) {
+      window.location.href = 'profile.html';
+    }
+
+    function handleRegister(e) {
+      e.preventDefault();
+      const name = document.getElementById('regName').value.trim();
+      const email = document.getElementById('regEmail').value.trim().toLowerCase();
+      const phone = document.getElementById('regPhone').value.trim();
+      const password = document.getElementById('regPassword').value;
+      const password2 = document.getElementById('regPassword2').value;
+      const errorEl = document.getElementById('regError');
+
+      function showError(msg) {
+        errorEl.textContent = msg;
+        errorEl.classList.add('show');
+        setTimeout(() => errorEl.classList.remove('show'), 4000);
+      }
+
+      if (name.length < 2) { showError('Введіть ваше ім\'я та прізвище'); return; }
+      if (!email.includes('@') || !email.includes('.')) { showError('Введіть коректний email'); return; }
+      if (password.length < 6) { showError('Пароль має містити щонайменше 6 символів'); return; }
+      if (password !== password2) { showError('Паролі не збігаються'); return; }
+
+      // Check if email already exists
+      let users = [];
+      try { users = JSON.parse(localStorage.getItem('et_users')) || []; } catch { users = []; }
+      if (users.find(u => u.email === email) || email === 'demo@transpika.cz') {
+        showError('Акаунт з таким email вже існує');
+        return;
+      }
+
+      // Save user
+      const newUser = { name, email, phone, password };
+      users.push(newUser);
+      localStorage.setItem('et_users', JSON.stringify(users));
+
+      // Login
+      setUser({ name, email, phone });
+
+      // Redirect with success param
+      window.location.href = 'profile.html?welcome=1';
+    }
+  </script>
+</body>
+</html>
+

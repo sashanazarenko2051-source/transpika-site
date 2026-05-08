@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Вхід — Transpika</title>
+  <meta name="description" content="Увійдіть до особистого кабінету Transpika. Управляйте замовленнями, відстежуйте посилки та отримуйте знижки.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body><script>var t=localStorage.getItem("et_theme")||"light";document.documentElement.setAttribute("data-theme",t);</script>
+
+  <div class="auth-page" style="background-image: url('https://images.unsplash.com/reserve/oGLumRxPRmemKujIVuEG_LongExposure_i84.jpeg?fm=jpg&q=80&w=1920&fit=crop');">
+    <div class="auth-overlay"></div>
+
+    <div class="auth-card">
+      <a href="index.html" class="auth-logo">🇨🇿🇺🇦 Transpika</a>
+      <h1 class="auth-title">Вхід до особистого кабінету</h1>
+
+      <div class="auth-error" id="loginError">
+        Невірний email або пароль. Спробуйте ще раз.
+      </div>
+
+      <form id="loginForm" onsubmit="handleLogin(event)">
+        <div class="form-group">
+          <label for="loginEmail">Email</label>
+          <input type="email" id="loginEmail" name="email" placeholder="your@email.com" required autocomplete="email">
+        </div>
+        <div class="form-group">
+          <label for="loginPassword">Пароль</label>
+          <input type="password" id="loginPassword" name="password" placeholder="••••••••" required autocomplete="current-password">
+        </div>
+        <a href="contact.html" class="auth-forgot">Забули пароль? Напишіть нам →</a>
+        <button type="submit" class="btn-blue" style="width:100%; justify-content:center; font-size:1rem; padding:14px; margin-bottom:8px;">Увійти</button>
+      </form>
+
+      <p class="auth-sub-link">
+        Немає акаунту? <a href="register.html">Зареєструватися</a>
+      </p>
+
+      <div style="margin-top:20px; padding:14px; background:var(--blue-light); border-radius:10px; font-size:0.8rem; color:var(--blue);">
+        <strong>Демо-аккаунт:</strong><br>
+        Email: demo@transpika.cz<br>
+        Пароль: demo123
+      </div>
+    </div>
+  </div>
+
+  <script src="auth.js"></script>
+  <script>
+    // Redirect if already logged in
+    if (getUser()) {
+      window.location.href = 'profile.html';
+    }
+
+    function handleLogin(e) {
+      e.preventDefault();
+      const email = document.getElementById('loginEmail').value.trim().toLowerCase();
+      const password = document.getElementById('loginPassword').value;
+      const errorEl = document.getElementById('loginError');
+
+      // Demo account
+      const DEMO = { email: 'demo@transpika.cz', password: 'demo123', name: 'Іван Демо' };
+
+      // Check demo account
+      if (email === DEMO.email && password === DEMO.password) {
+        setUser({ name: DEMO.name, email: DEMO.email });
+        window.location.href = 'profile.html';
+        return;
+      }
+
+      // Check registered users in localStorage
+      let users = [];
+      try { users = JSON.parse(localStorage.getItem('et_users')) || []; } catch { users = []; }
+      const found = users.find(u => u.email === email && u.password === password);
+      if (found) {
+        setUser({ name: found.name, email: found.email, phone: found.phone || '' });
+        window.location.href = 'profile.html';
+        return;
+      }
+
+      // Show error
+      errorEl.classList.add('show');
+      setTimeout(() => errorEl.classList.remove('show'), 4000);
+    }
+  </script>
+</body>
+</html>
+
