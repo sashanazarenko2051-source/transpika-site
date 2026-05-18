@@ -202,6 +202,6 @@ function initTheme() {
 function renderFloat() {
   const el = document.createElement('div');
   el.className = 'float-contacts';
-  el.innerHTML = `<a href="https://wa.me/420777000000" class="float-btn wa" title="WhatsApp">💬</a><a href="https://t.me/Transpika" class="float-btn tg" title="Telegram">✈️</a>`;
+  el.innerHTML = ``;
   document.body.appendChild(el);
 }
