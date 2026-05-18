@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="uk">
+<html lang="cs">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Реєстрація — Transpika</title>
-  <meta name="description" content="Зареєструйтесь в Transpika. Відстежуйте замовлення, отримуйте знижки та керуйте поїздками в особистому кабінеті.">
+  <title>Registrace — Transpika</title>
+  <meta name="description" content="Zaregistrujte se u Transpika. Sledujte objednávky, získávejte slevy a spravujte cesty v zákaznickém portálu.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
@@ -17,40 +17,40 @@
 
     <div class="auth-card">
       <a href="index.html" class="auth-logo">🇨🇿🇺🇦 Transpika</a>
-      <h1 class="auth-title">Реєстрація</h1>
+      <h1 class="auth-title">Registrace</h1>
 
       <div class="auth-error" id="regError"></div>
 
       <form id="registerForm" onsubmit="handleRegister(event)">
         <div class="form-group">
-          <label for="regName">Ваше ім'я та прізвище *</label>
-          <input type="text" id="regName" name="name" placeholder="Іван Петренко" required autocomplete="name">
+          <label for="regName">Vaše jméno a příjmení *</label>
+          <input type="text" id="regName" name="name" placeholder="Jan Novák" required autocomplete="name">
         </div>
         <div class="form-group">
           <label for="regEmail">Email *</label>
           <input type="email" id="regEmail" name="email" placeholder="your@email.com" required autocomplete="email">
         </div>
         <div class="form-group">
-          <label for="regPhone">Телефон</label>
-          <input type="tel" id="regPhone" name="phone" placeholder="+380 або +420..." autocomplete="tel">
+          <label for="regPhone">Telefon</label>
+          <input type="tel" id="regPhone" name="phone" placeholder="+380 nebo +420..." autocomplete="tel">
         </div>
         <div class="form-group">
-          <label for="regPassword">Пароль *</label>
-          <input type="password" id="regPassword" name="password" placeholder="Мінімум 6 символів" required autocomplete="new-password">
+          <label for="regPassword">Heslo *</label>
+          <input type="password" id="regPassword" name="password" placeholder="Minimálně 6 znaků" required autocomplete="new-password">
         </div>
         <div class="form-group">
-          <label for="regPassword2">Підтвердіть пароль *</label>
-          <input type="password" id="regPassword2" name="password2" placeholder="Повторіть пароль" required autocomplete="new-password">
+          <label for="regPassword2">Potvrďte heslo *</label>
+          <input type="password" id="regPassword2" name="password2" placeholder="Zopakujte heslo" required autocomplete="new-password">
         </div>
         <div class="auth-checkbox">
           <input type="checkbox" id="regTerms" required>
-          <label for="regTerms">Погоджуюсь з <a href="#" style="color:var(--blue);">умовами використання</a> та <a href="#" style="color:var(--blue);">політикою конфіденційності</a></label>
+          <label for="regTerms">Souhlasím s <a href="#" style="color:var(--blue);">podmínkami použití</a> a <a href="#" style="color:var(--blue);">zásadami ochrany soukromí</a></label>
         </div>
-        <button type="submit" class="btn-blue" style="width:100%; justify-content:center; font-size:1rem; padding:14px; margin-bottom:8px;">Зареєструватися</button>
+        <button type="submit" class="btn-blue" style="width:100%; justify-content:center; font-size:1rem; padding:14px; margin-bottom:8px;">Zaregistrovat se</button>
       </form>
 
       <p class="auth-sub-link">
-        Вже маєте акаунт? <a href="login.html">Увійти</a>
+        Máte již účet? <a href="login.html">Přihlásit se</a>
       </p>
     </div>
   </div>
@@ -77,16 +77,16 @@
         setTimeout(() => errorEl.classList.remove('show'), 4000);
       }
 
-      if (name.length < 2) { showError('Введіть ваше ім\'я та прізвище'); return; }
-      if (!email.includes('@') || !email.includes('.')) { showError('Введіть коректний email'); return; }
-      if (password.length < 6) { showError('Пароль має містити щонайменше 6 символів'); return; }
-      if (password !== password2) { showError('Паролі не збігаються'); return; }
+      if (name.length < 2) { showError('Zadejte své jméno a příjmení'); return; }
+      if (!email.includes('@') || !email.includes('.')) { showError('Zadejte správný email'); return; }
+      if (password.length < 6) { showError('Heslo musí obsahovat alespoň 6 znaků'); return; }
+      if (password !== password2) { showError('Hesla se neshodují'); return; }
 
       // Check if email already exists
       let users = [];
       try { users = JSON.parse(localStorage.getItem('et_users')) || []; } catch { users = []; }
       if (users.find(u => u.email === email) || email === 'demo@transpika.cz') {
-        showError('Акаунт з таким email вже існує');
+        showError('Účet s tímto emailem již existuje');
         return;
       }
 
@@ -104,4 +104,3 @@
   </script>
 </body>
 </html>
-

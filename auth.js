@@ -5,7 +5,7 @@ function logout() { localStorage.removeItem('et_user'); window.location.href = '
 
 // i18n - 11 European languages
 const LANG_KEY = 'et_lang';
-function getLang() { return localStorage.getItem(LANG_KEY) || 'uk'; }
+function getLang() { return localStorage.getItem(LANG_KEY) || 'cz'; }
 function setLang(l) { localStorage.setItem(LANG_KEY, l); location.reload(); }
 
 const LANGS = {
@@ -122,35 +122,35 @@ function renderFooter() {
     <div class="footer-grid container">
       <div class="footer-brand">
         <span class="logo">🇨🇿🇺🇦 Transpika</span>
-        <p>Надійні перевезення між Чехією та Україною з 2019 року. Довіряють тисячі клієнтів.</p>
+        <p>Spolehlivá přeprava mezi Českou republikou a Ukrajinou od roku 2019. Důvěřují nám tisíce zákazníků.</p>
         <div class="social-links" style="margin-top:16px;">
           <a href="#" title="Facebook">f</a>
           <a href="#" title="Instagram">📷</a>
           <a href="#" title="Telegram">✈</a>
         </div>
       </div>
-      <div class="footer-col"><h5>Послуги</h5><ul>
-        <li><a href="services.html">Вантажні</a></li>
-        <li><a href="services.html">Пасажирські</a></li>
-        <li><a href="services.html">Переїзди</a></li>
-        <li><a href="services.html">Погодинна оренда</a></li>
+      <div class="footer-col"><h5>Služby</h5><ul>
+        <li><a href="services.html">Nákladní</a></li>
+        <li><a href="services.html">Osobní</a></li>
+        <li><a href="services.html">Stěhování</a></li>
+        <li><a href="services.html">Hodinový pronájem</a></li>
       </ul></div>
-      <div class="footer-col"><h5>Маршрути</h5><ul>
-        <li><a href="routes.html">Прага → Київ</a></li>
-        <li><a href="routes.html">Прага → Львів</a></li>
-        <li><a href="routes.html">Брно → Харків</a></li>
-        <li><a href="routes.html">Острава → Ужгород</a></li>
+      <div class="footer-col"><h5>Trasy</h5><ul>
+        <li><a href="routes.html">Praha → Kyjev</a></li>
+        <li><a href="routes.html">Praha → Lvov</a></li>
+        <li><a href="routes.html">Brno → Charkov</a></li>
+        <li><a href="routes.html">Ostrava → Užhorod</a></li>
       </ul></div>
-      <div class="footer-col"><h5>Інформація</h5><ul>
-        <li><a href="reviews.html">Відгуки</a></li>
-        <li><a href="reviews.html#faq">FAQ / Митниця</a></li>
-        <li><a href="prices.html">Ціни</a></li>
-        <li><a href="contact.html">Контакти</a></li>
+      <div class="footer-col"><h5>Informace</h5><ul>
+        <li><a href="reviews.html">Recenze</a></li>
+        <li><a href="reviews.html#faq">FAQ / Clo</a></li>
+        <li><a href="prices.html">Ceny</a></li>
+        <li><a href="contact.html">Kontakt</a></li>
       </ul></div>
     </div>
     <div class="footer-bottom container">
-      <span>© 2025 Transpika. Всі права захищені.</span>
-      <span>Ліцензія EU 🚛 No. 123456</span>
+      <span>© 2025 Transpika. Všechna práva vyhrazena.</span>
+      <span>Licence EU 🚛 č. 123456</span>
     </div>
   `;
 }
