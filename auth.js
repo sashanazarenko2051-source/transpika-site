@@ -2,6 +2,21 @@
 function getUser() { try { return JSON.parse(localStorage.getItem('et_user')); } catch { return null; } }
 function setUser(u) { localStorage.setItem('et_user', JSON.stringify(u)); }
 function logout() { localStorage.removeItem('et_user'); window.location.href = 'index.html'; }
+// Пароли никогда не храним открытым текстом: только SHA-256 с привязкой к email
+async function hashPw(email, pw) {
+  const b = await crypto.subtle.digest('SHA-256', new TextEncoder().encode('transpika|' + String(email).toLowerCase() + '|' + pw));
+  return 'h1:' + Array.from(new Uint8Array(b), x => x.toString(16).padStart(2, '0')).join('');
+}
+// Текст пользователя в HTML — только экранированным
+function escH(s) { return String(s == null ? '' : s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c])); }
+// Старые записи с открытыми паролями — сразу заменить хешем
+(async function () {
+  try {
+    const us = JSON.parse(localStorage.getItem('et_users')) || []; let ch = false;
+    for (const u of us) if (u && u.password && !String(u.password).startsWith('h1:')) { u.password = await hashPw(u.email, u.password); ch = true; }
+    if (ch) localStorage.setItem('et_users', JSON.stringify(us));
+  } catch (e) {}
+})();
 
 // i18n - 11 European languages
 const LANG_KEY = 'et_lang';
@@ -61,7 +76,7 @@ function renderNav(activePage = '') {
       </div>
       <button class="theme-btn" onclick="toggleTheme()" id="themeBtn" title="Змінити тему">☀️</button>
       ${user
-        ? `<a href="profile.html" class="btn-profile"><span class="avatar-mini">${user.name.charAt(0).toUpperCase()}</span>${user.name.split(' ')[0]}</a>
+        ? `<a href="profile.html" class="btn-profile"><span class="avatar-mini">${escH(String(user.name || '?').charAt(0).toUpperCase())}</span>${escH(String(user.name || '').split(' ')[0])}</a>
            <button onclick="logout()" class="btn-logout" title="` + t.logout + `">↩</button>`
         : `<a href="login.html" class="btn-blue">` + t.login + `</a>`
       }

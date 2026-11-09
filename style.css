@@ -2023,3 +2023,5 @@ img {
   }
 }
 
+/* Телефон: таблица цен листается вбок, страница не шире экрана */
+@media(max-width:600px){.price-table{display:block;overflow-x:auto;max-width:100%;-webkit-overflow-scrolling:touch}html,body{overflow-x:hidden}}

@@ -55,7 +55,7 @@
       window.location.href = 'profile.html';
     }
 
-    function handleLogin(e) {
+    async function handleLogin(e) {
       e.preventDefault();
       const email = document.getElementById('loginEmail').value.trim().toLowerCase();
       const password = document.getElementById('loginPassword').value;
@@ -74,7 +74,8 @@
       // Check registered users in localStorage
       let users = [];
       try { users = JSON.parse(localStorage.getItem('et_users')) || []; } catch { users = []; }
-      const found = users.find(u => u.email === email && u.password === password);
+      const h = await hashPw(email, password);
+      const found = users.find(u => u.email === email && (u.password === h || u.password === password));
       if (found) {
         setUser({ name: found.name, email: found.email, phone: found.phone || '' });
         window.location.href = 'profile.html';

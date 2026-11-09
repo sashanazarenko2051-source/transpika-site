@@ -62,7 +62,7 @@
       window.location.href = 'profile.html';
     }
 
-    function handleRegister(e) {
+    async function handleRegister(e) {
       e.preventDefault();
       const name = document.getElementById('regName').value.trim();
       const email = document.getElementById('regEmail').value.trim().toLowerCase();
@@ -91,7 +91,7 @@
       }
 
       // Save user
-      const newUser = { name, email, phone, password };
+      const newUser = { name, email, phone, password: await hashPw(email, password) };
       users.push(newUser);
       localStorage.setItem('et_users', JSON.stringify(users));
 
